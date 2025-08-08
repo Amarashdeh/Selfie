@@ -20,6 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Auth::shouldUse('admin'); // Set globally for admin area if needed
+        // Auth::shouldUse('admin'); // Set globally for admin area if needed
     }
 }
