@@ -29,7 +29,7 @@ Route::middleware('guest')->group(function () {
 // =====================
 Route::prefix('admin')
     ->name('admin.')
-    ->middleware(['auth:admin', 'role:Admin|SuperAdmin', 'admin', 'prevent-back-history'])
+    ->middleware(['auth:admin', 'admin', 'prevent-back-history'])
     ->group(function () {
         Route::post('/logout', [AdminLoginController::class, 'logout'])->name('logout');
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -44,9 +44,7 @@ Route::middleware(['auth:web', 'role:Teacher|Moderator|Parent', 'prevent-back-hi
     Route::post('/logout', [UserLoginController::class, 'logout'])->name('user.logout');
     // Common dashboard route redirects to role-specific dashboards
     Route::get('/dashboard', function () {
-                dd('Reached dashboard route');  // debugging here, this will stop only dashboard route
-
-                $role = auth()->user()->getRoleNames()->first();
+        $role = auth()->user()->getRoleNames()->first();
 
         return match ($role) {
             'Teacher' => redirect()->route('teacher.dashboard'),
