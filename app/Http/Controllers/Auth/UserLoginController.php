@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use app\Models\User;
 
 class UserLoginController extends Controller
 {
@@ -22,7 +23,11 @@ class UserLoginController extends Controller
 
         if (Auth::guard('web')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
+            $user = User::where('email', $request->email)->first();
             
+            if (!$user->hasVerifiedEmail()) {
+                return redirect()->route('verification.notice');
+            }
             // Redirect to common dashboard route that handles role-based redirect
             return redirect()->intended(route('dashboard'));
         }

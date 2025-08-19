@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>Parent Dashboard</h1>
-<p>Welcome, {{ auth()->user()->name }}!</p>
+<p>Welcome, {{ auth('web')->user()->name }}!</p>
 
 <form method="POST" action="{{ route('user.logout') }}">
     @csrf
